@@ -21,8 +21,7 @@ This skill package includes:
 - OpenClaw/OpenWork-ready files (`SKILL.md`, `scripts/`, `conf/`)
 
 Documentation:
-- English: [webull_api_skills/README.md](./webull_api_skills/README.md)
-- 中文: [webull_api_skills/README.zh-CN.md](./webull_api_skills/README.zh-CN.md)
+- [webull_api_skills/README.md](./webull_api_skills/README.md)
 
 ## OpenClaw / OpenWork Quick Start (`webull_api_skills`)
 
@@ -39,4 +38,3 @@ Install the webull skill from the current directory.
 
 For full setup steps and command-level examples, read:
 - [webull_api_skills/README.md](./webull_api_skills/README.md)
-- [webull_api_skills/README.zh-CN.md](./webull_api_skills/README.zh-CN.md)

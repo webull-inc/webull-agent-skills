@@ -1,7 +1,5 @@
 # Webull OpenAPI Runtime Guide
 
-English | [简体中文](README.zh-CN.md)
-
 This repository provides runnable Webull OpenAPI scripts and an OpenClaw-ready skill for:
 - market / instrument / account queries
 - trade operations with risk controls and post-trade checks

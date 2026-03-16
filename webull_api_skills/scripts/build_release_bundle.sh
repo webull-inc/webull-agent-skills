@@ -11,7 +11,6 @@ mkdir -p "${DIST_DIR}"
 
 INCLUDE_PATHS=(
   "README.md"
-  "README.zh-CN.md"
   "SKILL.md"
   "requirements.txt"
   ".gitignore"
