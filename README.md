@@ -4,16 +4,47 @@ More skills will be added over time in dedicated subdirectories for easier maint
 
 ## OpenCode / OpenClaw: Install and Update
 
-If you are using OpenCode or OpenClaw, install the skill from this repository directory with:
+This section is for installing/updating **OpenCode/OpenClaw itself** (not this skill repository).
 
-```text
-Install the webull skill from the current directory.
+### OpenCode
+
+Install:
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
 ```
 
-To update the skill after new changes:
-1. Pull the latest repository changes.
-2. Run the same installation input again in OpenCode/OpenClaw.
-3. Re-check your profile settings if needed (`app_key`, `app_secret`, env/region).
+Update:
+
+```bash
+opencode upgrade
+```
+
+Official docs: https://opencode.ai/docs
+
+### OpenClaw
+
+Install:
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+```
+
+Update:
+
+```bash
+openclaw update
+```
+
+Alternative update path (officially recommended): re-run installer
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+```
+
+Official docs:
+- https://docs.openclaw.ai/install
+- https://docs.openclaw.ai/install/updating
 
 For complete setup and runtime examples:
 - English: [webull_api_skills/README.md](./webull_api_skills/README.md)
