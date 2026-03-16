@@ -1,0 +1,52 @@
+{
+  "global": {
+    "max_orders_per_request": 10,
+    "allowed_instrument_types": ["EQUITY", "OPTION", "FUTURES", "CRYPTO", "EVENT"],
+    "allowed_sides": ["BUY", "SELL"],
+    "require_client_order_id": true,
+    "auto_generate_client_order_id": true,
+    "enforce_unique_client_order_id": true
+  },
+  "live": {
+    "enabled": true,
+    "require_confirm_live": true,
+    "require_preview_before_live": true,
+    "allowed_endpoints": [
+      "api.webull.com",
+      "us-openapi-alb.uat.webullbroker.com",
+      "api.webull.hk",
+      "api.sandbox.webull.hk"
+    ]
+  },
+  "instruments": {
+    "EQUITY": {
+      "allowed_order_types": ["MARKET", "LIMIT", "STOP_LOSS", "STOP_LOSS_LIMIT"],
+      "allowed_tif": ["DAY", "GTC", "IOC"]
+    },
+    "OPTION": {
+      "allowed_order_types": ["MARKET", "LIMIT", "STOP_LOSS", "STOP_LOSS_LIMIT"],
+      "allowed_tif": ["DAY", "GTC"],
+      "allowed_option_strategies": ["SINGLE", "COVERED_STOCK"]
+    },
+    "FUTURES": {
+      "allowed_order_types": ["MARKET", "LIMIT", "STOP_LOSS", "STOP_LOSS_LIMIT", "TRAILING_STOP_LOSS"],
+      "allowed_tif": ["DAY", "GTC"],
+      "disallow_combo": true
+    },
+    "CRYPTO": {
+      "allowed_order_types": ["MARKET", "LIMIT", "STOP_LOSS_LIMIT"],
+      "allowed_tif": ["DAY", "GTC", "IOC"],
+      "min_order_notional": "1",
+      "max_order_notional": "100000",
+      "max_pending_buy_notional": "200000",
+      "enforce_pending_buy_notional": false,
+      "min_quantity": "0.00000001"
+    },
+    "EVENT": {
+      "allowed_order_types": ["LIMIT"],
+      "allowed_tif": ["DAY"],
+      "max_quantity": "50000",
+      "prohibit_sell_to_open": true
+    }
+  }
+}
