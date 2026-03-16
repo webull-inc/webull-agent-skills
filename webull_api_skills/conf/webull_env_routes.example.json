@@ -1,0 +1,24 @@
+{
+  "routes": {
+    "uat": {
+      "us": {
+        "openapi_host": "us-openapi-alb.uat.webullbroker.com",
+        "oauth_host": "us-oauth-open-api.uat.webullbroker.com"
+      },
+      "hk": {
+        "openapi_host": "api.sandbox.webull.hk",
+        "oauth_host": "api.sandbox.webull.hk"
+      }
+    },
+    "prod": {
+      "us": {
+        "openapi_host": "api.webull.com",
+        "oauth_host": "us-oauth-open-api.webull.com"
+      },
+      "hk": {
+        "openapi_host": "api.webull.hk",
+        "oauth_host": "api.webull.hk"
+      }
+    }
+  }
+}
