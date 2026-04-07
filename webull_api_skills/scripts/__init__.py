@@ -1,2 +1,0 @@
-"""Webull skill scripts package."""
-
