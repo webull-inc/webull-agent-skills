@@ -58,8 +58,22 @@ def _parse_float(raw: str | None, default: float) -> float:
 
 
 # Default token directory: conf/ at project root (sibling of webull_openapi_skills/)
-# This keeps token files out of the source code directory.
-_DEFAULT_TOKEN_DIR = str(Path(__file__).resolve().parent.parent.parent / "conf")
+# Can be overridden via WEBULL_CONFIG_DIR environment variable.
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+_DEFAULT_TOKEN_DIR = str(_PROJECT_ROOT / "conf")
+
+
+def _resolve_config_dir() -> Path:
+    """Resolve the config directory.
+
+    Priority:
+    1. WEBULL_CONFIG_DIR environment variable (user-specified path)
+    2. Project root (default — sibling of webull_openapi_skills/)
+    """
+    custom = os.environ.get("WEBULL_CONFIG_DIR", "").strip()
+    if custom:
+        return Path(custom).expanduser().resolve()
+    return _PROJECT_ROOT
 
 
 def load_config(env_file: str | None = None) -> SkillConfig:
@@ -68,25 +82,30 @@ def load_config(env_file: str | None = None) -> SkillConfig:
     Parameters
     ----------
     env_file:
-        Optional path to a .env file. When provided the file is loaded
-        before reading os.environ so that file values act as defaults
+        Optional explicit path to a .env file. When provided the file is
+        loaded before reading os.environ so that file values act as defaults
         that real env-vars can override (python-dotenv default behaviour).
+
+    .env lookup order (when env_file is not provided):
+    1. $WEBULL_CONFIG_DIR/.env  (if WEBULL_CONFIG_DIR is set)
+    2. <project_root>/.env      (default)
+    3. Current working directory .env (last resort)
     """
     if env_file is not None:
         load_dotenv(env_file, override=False)
     else:
-        # Try .env at project root first, then skill directory, then current directory
-        _project_root_env = Path(__file__).resolve().parent.parent.parent / ".env"
-        _skill_env = Path(__file__).resolve().parent.parent / ".env"
-        if _project_root_env.exists():
-            load_dotenv(str(_project_root_env), override=False)
-        elif _skill_env.exists():
-            load_dotenv(str(_skill_env), override=False)
+        config_dir = _resolve_config_dir()
+        env_path = config_dir / ".env"
+        if env_path.exists():
+            load_dotenv(str(env_path), override=False)
         else:
             load_dotenv(override=False)
 
-    # Token dir: env var > default (project-root/conf/)
-    token_dir = os.environ.get("WEBULL_TOKEN_DIR") or _DEFAULT_TOKEN_DIR
+    # Token dir: WEBULL_TOKEN_DIR > WEBULL_CONFIG_DIR/conf/ > project_root/conf/
+    token_dir = (
+        os.environ.get("WEBULL_TOKEN_DIR")
+        or str(_resolve_config_dir() / "conf")
+    )
 
     return SkillConfig(
         app_key=os.environ.get("WEBULL_APP_KEY", ""),

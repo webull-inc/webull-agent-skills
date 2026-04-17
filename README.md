@@ -101,6 +101,8 @@ cp .env.example .env
 # Edit .env — fill in WEBULL_APP_KEY and WEBULL_APP_SECRET
 ```
 
+> To keep credentials outside the project directory, set `WEBULL_CONFIG_DIR` to any path (e.g. `~/.config/webull-skill`) and place your `.env` there.
+
 ### 2. Authenticate (when token is missing or expired)
 
 ```bash
@@ -137,13 +139,14 @@ python3 webull_openapi_skills/scripts/cli.py trading --action place --account-id
 | `WEBULL_MAX_ORDER_NOTIONAL_CNH` | Max order value for CN market (CNH) | `70000` |
 | `WEBULL_MAX_ORDER_QUANTITY` | Max order quantity | `1000` |
 | `WEBULL_SYMBOL_WHITELIST` | Allowed symbols (comma-separated) | (no restriction) |
-| `WEBULL_TOKEN_DIR` | Token storage directory | `conf/` |
+| `WEBULL_CONFIG_DIR` | Custom config directory for `.env` and token files | (none) |
+| `WEBULL_TOKEN_DIR` | Token storage directory | `<project_root>/conf/` |
 | `WEBULL_AUDIT_LOG_FILE` | Audit log file path | stderr only |
 | `WEBULL_LOG_LEVEL` | SDK log level | `WARNING` |
 
 > **Note:** `WEBULL_REGION_ID=us` represents **Webull US** ([developer.webull.com](https://developer.webull.com/apis/home)), and `WEBULL_REGION_ID=hk` represents **Webull Hong Kong** ([developer.webull.hk](https://developer.webull.hk/apis/home)).
 
-See [.env.example](.env.example) for full configuration template.
+See [webull_openapi_skills/.env.example](webull_openapi_skills/.env.example) for full configuration template.
 
 ---
 
