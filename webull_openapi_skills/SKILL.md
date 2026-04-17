@@ -714,6 +714,13 @@ WEBULL_APP_KEY=<your_app_key>
 WEBULL_APP_SECRET=<your_app_secret>
 ```
 
+**`.env` lookup order** (when `--env-file` is not specified):
+1. `$WEBULL_CONFIG_DIR/.env` — if `WEBULL_CONFIG_DIR` is set
+2. `<project_root>/.env` — default (sibling of `webull_openapi_skills/`)
+3. Current working directory `.env` — last resort
+
+> To keep credentials outside the project directory, set `WEBULL_CONFIG_DIR` as a **system environment variable** (e.g. in `~/.zshrc`), then place your `.env` at `$WEBULL_CONFIG_DIR/.env`. Setting `WEBULL_CONFIG_DIR` inside a `.env` file has no effect — it must be set before the process starts.
+
 Optional:
 
 | Variable | Default | Description |
@@ -723,7 +730,8 @@ Optional:
 | `WEBULL_MAX_ORDER_NOTIONAL_USD` | `10000` | Max order value (USD) |
 | `WEBULL_MAX_ORDER_QUANTITY` | `1000` | Max shares per order |
 | `WEBULL_SYMBOL_WHITELIST` | (none) | Comma-separated allowed symbols |
-| `WEBULL_TOKEN_DIR` | `conf/` | Token storage directory |
+| `WEBULL_CONFIG_DIR` | (none) | **System env var only** (not in `.env`). Moves `.env` lookup and token storage to this directory |
+| `WEBULL_TOKEN_DIR` | `<project_root>/conf/` | Token storage directory |
 | `WEBULL_AUDIT_LOG_FILE` | (stderr) | Audit log file path |
 | `WEBULL_LOG_LEVEL` | `WARNING` | SDK log level |
 

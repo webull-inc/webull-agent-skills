@@ -155,13 +155,19 @@ class SDKClient:
                         If False (default), fail fast if 2FA is required.
 
         Steps:
-        1. Create ApiClient with token check timeout
-        2. Set token_dir if configured
-        3. For UAT: inject all three endpoint types (DEFAULT, QUOTES, EVENTS)
-        4. Configure SDK logging
-        5. Create TradeClient and DataClient (triggers token init)
+        1. Set client source identifier so SDK can distinguish skill calls
+        2. Create ApiClient with token check timeout
+        3. Set token_dir if configured
+        4. For UAT: inject all three endpoint types (DEFAULT, QUOTES, EVENTS)
+        5. Configure SDK logging
+        6. Create TradeClient and DataClient (triggers token init)
         """
         cfg = self._config
+
+        # 1. Set client source identifier — SDK 2.0.3+ attaches this as
+        #    x-webull-client-source header on all HTTP requests.
+        #    setdefault preserves any value already set in the environment.
+        os.environ.setdefault("WEBULL_CLIENT_SOURCE", "skill")
 
         # Token check timeout based on mode
         if interactive:
@@ -171,7 +177,7 @@ class SDKClient:
             duration = self.DEFAULT_TOKEN_CHECK_DURATION
             interval = self.DEFAULT_TOKEN_CHECK_INTERVAL
 
-        # 1. Core API client
+        # 2. Core API client
         api_client = ApiClient(
             cfg.app_key,
             cfg.app_secret,
@@ -180,17 +186,17 @@ class SDKClient:
             token_check_interval_seconds=interval,
         )
 
-        # 2. Token persistence directory
+        # 3. Token persistence directory
         if cfg.token_dir:
             api_client.set_token_dir(cfg.token_dir)
 
-        # 3. UAT endpoint injection
+        # 4. UAT endpoint injection
         _configure_uat_endpoints(api_client, cfg)
 
-        # 4. SDK logging configuration
+        # 5. SDK logging configuration
         _configure_logging(api_client)
 
-        # 5. Trade / Data clients
+        # 6. Trade / Data clients
         self._api_client = api_client
         self._trade_client, self._data_client = _create_clients(api_client, cfg)
 
